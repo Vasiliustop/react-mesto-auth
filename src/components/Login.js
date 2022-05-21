@@ -26,13 +26,13 @@ function Login({ onLogin }) {
     <div>
       <article className="auth">
         <div className="auth__container">
-          <form className="popup__form" noValidate onSubmit={handleSubmit}>
+          <form className="popup__form" onSubmit={handleSubmit}>
             <h3 className="auth__title">Вход</h3>
             <input
               required
               className="auth__input"
               placeholder="Email"
-              type="url"
+              type="email"
               value={inputs.email ?? ""}
               onChange={handleChange}
               name="email"

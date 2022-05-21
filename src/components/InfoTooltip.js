@@ -10,7 +10,7 @@ export default function InfoTooltip({ isOpen, onClose, isRegisterCompleted }) {
 
   return (
     <div>
-      <article className={`popup ${isOpen ? "popup_active" : ""}`}>
+      <article className={`popup ${isOpen && "popup_active"}`}>
         <div className="popup__container">
           <div className={`popup__icon ${Icon}`}> </div>
           <button

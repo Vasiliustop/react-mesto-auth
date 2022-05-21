@@ -27,7 +27,7 @@ function Register({ onRegister }) {
     <div>
       <article className="auth">
         <div className="auth__container">
-          <form className="popup__form" noValidate onSubmit={handleSubmit}>
+          <form className="popup__form" onSubmit={handleSubmit}>
             <h3 className="auth__title">Регистрация</h3>
             <input
               required

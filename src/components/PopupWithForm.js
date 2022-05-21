@@ -18,7 +18,6 @@ export default function PopupWithForm({
           <form
             className="popup__form"
             name={name}
-            noValidate
             onSubmit={onSubmit}
           >
             <h3 className="popup__title">{title}</h3>

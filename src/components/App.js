@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { Route, useHistory, Switch } from "react-router-dom";
 import Header from "./Header.js";
 import Footer from "./Footer.js";
@@ -16,29 +16,29 @@ import InfoTooltip from "./InfoTooltip.js";
 import * as auth from "./../utils/Auth";
 
 export default function App() {
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
-    React.useState(false);
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
-    React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [selectedCard, setSelected] = React.useState(null);
-  const [cards, setCards] = React.useState([]);
-  const [currentUser, setCurrentUser] = React.useState({});
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [isRegisterCompleted, setIsRegisterCompleted] = React.useState(false);
-  const [isTooltipOpen, setTooltipOpen] = React.useState(false);
-  const [email, setEmail] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [selectedCard, setSelected] = useState(null);
+  const [cards, setCards] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isRegisterCompleted, setIsRegisterCompleted] = useState(false);
+  const [isTooltipOpen, setTooltipOpen] = useState(false);
+  const [email, setEmail] = useState(false);
 
-  React.useEffect(() => {
-    Promise.all([api.getProfile(), api.getInitialCards()])
-      .then(([user, cards]) => {
-        setCurrentUser(user);
-        setCards(cards);
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
-  }, []);
+  useEffect(() => {
+    if (isLoggedIn) {
+      Promise.all([api.getProfile(), api.getInitialCards()])
+        .then(([user, cards]) => {
+          setCurrentUser(user);
+          setCards(cards);
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
+    }
+  }, [isLoggedIn]);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -129,9 +129,8 @@ export default function App() {
     setSelected(null);
   }
 
-
   const history = useHistory();
-  React.useEffect(() => {
+  useEffect(() => {
     checkToken();
   }, []);
 
@@ -191,13 +190,13 @@ export default function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="root">
         <Header onSignOut={handleSignOut} email={email} />
-        <Route path="/sign-up">
-          <Register onRegister={handleRegister} />
-        </Route>
-        <Route path="/sign-in">
-          <Login onLogin={handleLogin} />
-        </Route>
         <Switch>
+          <Route path="/sign-up">
+            <Register onRegister={handleRegister} />
+          </Route>
+          <Route path="/sign-in">
+            <Login onLogin={handleLogin} />
+          </Route>
           <ProtectedRoute isLoggedIn={isLoggedIn} path="/">
             <Main
               onEditProfile={handleEditProfileClick}
